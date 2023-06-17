@@ -11,6 +11,15 @@ from Saving import*
 y_sp = [1]*500 #Lista que armazena os valores do setpoint
 q = [0]*500 #Lista que armazena os valores da perturbação
 time_ = 50
+invert = False
+
+def invert_sp():
+    global invert
+    invert = not invert
+    if invert:
+        inv_button['text'] = "e = sp - y"
+    else:
+        inv_button['text'] = "e = y - sp"
 
 #Plota os dados
 def plot():
@@ -44,7 +53,8 @@ def plot():
         phi_noise= wave_create.phi_noise,
         u= u,
         kp = slider_kp.get(),
-        bias=slider_bias.get()
+        bias=slider_bias.get(),
+        invert = invert
     )
     
     data_plot_y = []
@@ -144,6 +154,8 @@ entry_time.insert(0, str(time_))
 entry_time.place(x=x_time+80, y=y_time, height=25, width=50)
 Button(win, text= "Aplique", command= set_time).place(x = x_time+130, y = y_time-1, height= 25, width= 60)
 
+inv_button = Button(win, text= "e = sp - y", command=invert_sp)
+inv_button.place(x = 20, y = 350, height= 25, width= 60)
 #Plota os dados
 plot()
 

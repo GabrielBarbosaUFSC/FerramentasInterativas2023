@@ -11,6 +11,16 @@ from Saving import*
 y_sp = [1]*200+[0]*200+[1]*100 #Lista que armazena os valores do setpoint
 q = [0]*500 #Lista que armazena os valores da perturbação
 time_ = 50
+invert = False
+
+def invert_sp():
+    global invert
+    invert = not invert
+    if invert:
+        inv_button['text'] = "e = sp - y"
+    else:
+        inv_button['text'] = "e = y - sp"
+
 #Plota os dados
 def plot():
     global y_sp, q #Usa o setpoint de variável global
@@ -44,7 +54,8 @@ def plot():
         kp = slider_kp.get(),
         ki=slider_ki.get(),
         kd = slider_kd.get(),
-        tauf=slider_tauf.get()
+        tauf=slider_tauf.get(),
+        invert = invert
     )
     
     data_plot_y = []
@@ -136,7 +147,10 @@ slider_kd   = NonLinearSlider(win, 20, 440, plot, label= 'Kd', initial_value=1, 
 slider_tauf = NonLinearSlider(win, 20, 490, plot, label= '\u03c4f', initial_value=0, min=0, max=50)
 
 #Cria um botão para poder gerar uma forma de onda 
-Button(win, text= "Sinal", command= wave_create.create_win).place(x = 20, y = 540, height= 30, width= 150)
+Button(win, text= "Sinal", command= wave_create.create_win).place(x = 20, y = 540, height= 30, width= 100)
+inv_button = Button(win, text= "e = sp - y", command=invert_sp)
+inv_button.place(x = 120, y = 540, height= 30, width= 100)
+
 x_time = 20
 y_time = 310
 label_time = Label(win, text="Tempo (s):")

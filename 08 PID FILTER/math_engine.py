@@ -42,7 +42,7 @@ class sim_on_off:
     def get_params(self):
         return [self.tau, self.u_max, self.u_min, self.ke, self.kq, self.l]
 
-    def plot(self, setpoint, qe, phi_noise, amp_noise, kp, ki, kd, tauf, u = 0):
+    def plot(self, setpoint, qe, phi_noise, amp_noise, kp, ki, kd, tauf, invert, u = 0):
         amp_noise *= 10
         sp_len = len(setpoint)
 
@@ -86,7 +86,10 @@ class sim_on_off:
  
             #Verifica se você quer usar o sinal de controle do criador de wave forms
             if u == 0: 
-                error = setpoint[i] - self.y[i]
+                if invert:
+                    error = self.y[i] - setpoint[i]
+                else:
+                    error = setpoint[i] - self.y[i]
                 temP = kp*error
                 temI += self.tn*ki*(error+pasterror)/2
 
