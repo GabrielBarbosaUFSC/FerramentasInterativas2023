@@ -49,18 +49,22 @@ def plot():
     
     data_plot_y = []
     data_plot_u = []
-    data_plot_label = []
+    data_plot_ylabel = []
+    data_plot_ulabel = []
+    i = 1
     for save in savebox.saves:
         if save.check_var.get() and len(save.datas[0]) == 500 and len(save.datas[1]) == 500:
-            data_plot_label.append(save.label_var.get()) 
+            data_plot_ulabel.append("u"+str(i))
+            data_plot_ylabel.append("y"+str(i)) 
             data_plot_y.append(save.datas[0])  
             data_plot_u.append(save.datas[1]) 
+            i += 1
 
     lim_min = [i-slider_tol.get() for i in y_sp]
     lim_max = [i+slider_tol.get() for i in y_sp]
 
-    u_graph.set_data([math_engine.u]+data_plot_u, ["u"]+data_plot_label)
-    y_graph.set_data([y_sp, math_engine.y, math_engine.q, lim_min, lim_max]+data_plot_y, ["setpoint", "y", "q", "y min", "y max"]+data_plot_label)
+    u_graph.set_data([math_engine.u]+data_plot_u, ["u"]+data_plot_ulabel)
+    y_graph.set_data([y_sp, math_engine.y, math_engine.q, lim_min, lim_max]+data_plot_y, ["setpoint", "y", "q", "y min", "y max"]+data_plot_ylabel)
     
 #Faz com que os sliders voltam para a posição zero depois que vc solta o cursor
 def released(param):
